@@ -1,0 +1,57 @@
+name: CI
+
+# 何をする？
+#   PR と develop/main への push のたびに、フォーマット・静的解析・テストを自動実行する。
+#   壊れたコードがdevelop/mainに入るのを防ぐのが目的。
+#
+# テスト方針
+#   - 単体テスト (test/): ウィジェット・ロジックを1件ずつ責務単位でテスト
+#   - 結合テスト (integration_test/): 実機/エミュレータが必要なため現在はCIから除外
+#
+# ブランチ戦略について
+#   本プロジェクトはGit Flow(developブランチ運用)を採用している(docs/環境とブランチ運用.md参照)。
+#   姉妹プロジェクト(main1本)とは異なり、develop宛のPR・pushもCI対象に含める。
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+jobs:
+  analyze-and-test:
+    name: Analyze & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. リポジトリのコードを取得
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Flutter SDKをセットアップ
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      # 3. .env(gitignore対象)がないとSupabase設定のasset読み込みで失敗するため、
+      #    .env.exampleがあればコピーして代用する(実際の接続確認は行わない)
+      - name: Prepare .env
+        run: test -f .env.example && cp .env.example .env || true
+
+      # 4. 依存パッケージを取得
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 5. フォーマットチェック(差分があれば失敗)
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed $(git ls-files '*.dart')
+
+      # 6. 静的解析
+      - name: Analyze
+        run: flutter analyze
+
+      # 7. 単体テスト
+      - name: Run unit tests
+        run: flutter test --reporter expanded
