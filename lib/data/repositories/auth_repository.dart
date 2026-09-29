@@ -1,0 +1,37 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+/// メール/Google/Appleログインを扱う認証リポジトリ(決定: docs/全体設計書.md 2章 F-02)。
+class AuthRepository {
+  AuthRepository(this._client);
+
+  final SupabaseClient _client;
+
+  /// ログイン状態の変化(ログイン・ログアウト・トークン更新)。
+  Stream<AuthState> get authStateChanges => _client.auth.onAuthStateChange;
+
+  User? get currentUser => _client.auth.currentUser;
+
+  Future<AuthResponse> signUpWithEmail({
+    required String email,
+    required String password,
+  }) {
+    return _client.auth.signUp(email: email, password: password);
+  }
+
+  Future<AuthResponse> signInWithEmail({
+    required String email,
+    required String password,
+  }) {
+    return _client.auth.signInWithPassword(email: email, password: password);
+  }
+
+  Future<bool> signInWithGoogle() {
+    return _client.auth.signInWithOAuth(OAuthProvider.google);
+  }
+
+  Future<bool> signInWithApple() {
+    return _client.auth.signInWithOAuth(OAuthProvider.apple);
+  }
+
+  Future<void> signOut() => _client.auth.signOut();
+}
