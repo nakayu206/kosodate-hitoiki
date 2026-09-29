@@ -8,8 +8,8 @@
 ## セットアップ
 
 ```bash
-cp .env.example .env
-# .envにSupabaseプロジェクトのURL・匿名キーを設定
 flutter pub get
 flutter run
 ```
+
+Supabaseの接続先は[lib/core/config/supabase_config.dart](lib/core/config/supabase_config.dart)に直接記載している(匿名キーは公開情報のため.envでの秘匿は不要。理由は同ファイルのコメント参照)。実際のプロジェクト作成後は同ファイルの値を差し替える。
