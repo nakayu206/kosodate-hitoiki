@@ -10,11 +10,11 @@ class AppColors {
   /// 黄。セカンダリボタン・選択中チップ等。
   static const secondary = Color(0xFFF6CA65);
 
-  /// 紙。画面背景。
-  static const background = Color(0xFFFFFCF6);
+  /// クリーム。画面背景。
+  static const background = Color(0xFFFFF3D5);
 
-  /// クリーム。カード等の面。
-  static const surface = Color(0xFFFFF3D5);
+  /// 紙。カード等の面(背景よりも白く、浮き上がって見える)。
+  static const surface = Color(0xFFFFFCF6);
 
   /// ココア。見出し・本文。
   static const textPrimary = Color(0xFF654536);

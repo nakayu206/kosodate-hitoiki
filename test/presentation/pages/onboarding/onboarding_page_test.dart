@@ -9,6 +9,7 @@ void main() {
   testWidgets('「登録せずに読む」を押すとホーム画面(ボトムナビ)に遷移する', (tester) async {
     await tester.pumpWidget(wrap(const OnboardingPage()));
 
+    await tester.ensureVisible(find.text('登録せずに読む'));
     await tester.tap(find.text('登録せずに読む'));
     await tester.pumpAndSettle();
 
@@ -18,6 +19,7 @@ void main() {
   testWidgets('「登録してはじめる」を押すと登録・ログイン画面に遷移する', (tester) async {
     await tester.pumpWidget(wrap(const OnboardingPage()));
 
+    await tester.ensureVisible(find.text('登録してはじめる'));
     await tester.tap(find.text('登録してはじめる'));
     await tester.pumpAndSettle();
 

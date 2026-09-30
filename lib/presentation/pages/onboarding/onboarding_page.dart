@@ -29,84 +29,104 @@ class OnboardingPage extends StatelessWidget {
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'ひと息',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  SvgPicture.asset(
-                    AppDecorations.sunSmiling,
-                    width: 64,
-                    height: 64,
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.lg),
+              const SizedBox(height: AppSpacing.sm),
+              const _Header(),
+              const SizedBox(height: AppSpacing.md),
               Text(
                 '言いづらいことも、\nここでひと息。',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
                   color: AppColors.textPrimary,
+                  height: 1.3,
                 ),
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
                 '子育ての気持ちを、\n安心して書ける場所です。',
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge?.copyWith(color: AppColors.textSecondary),
               ),
               const SizedBox(height: AppSpacing.lg),
               const _RulesCard(),
               const SizedBox(height: AppSpacing.lg),
-              FilledButton(
-                style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size.fromHeight(52),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                ),
-                onPressed: () => _goToLogin(context),
-                child: const Text('登録してはじめる'),
+              _Footer(
+                onLogin: () => _goToLogin(context),
+                onSkip: () => _goToHome(context),
               ),
-              const SizedBox(height: AppSpacing.sm),
-              FilledButton(
-                style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.secondary,
-                  foregroundColor: AppColors.textPrimary,
-                  minimumSize: const Size.fromHeight(52),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                ),
-                onPressed: () => _goToHome(context),
-                child: const Text('登録せずに読む'),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Center(
-                child: TextButton(
-                  onPressed: () => _goToLogin(context),
-                  child: Text(
-                    'ログイン',
-                    style: TextStyle(
-                      color: AppColors.textSecondary,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              ),
+              const SizedBox(height: AppSpacing.md),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// 「ひと息」ワードマークと太陽マスコット(固定高さのヘッダー帯)。
+class _Header extends StatelessWidget {
+  const _Header();
+
+  static const _height = 168.0;
+  static const _sunSize = 150.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: _height,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            top: 12,
+            left: 0,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'ひと息',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                SvgPicture.asset(
+                  AppDecorations.leavesSprout,
+                  width: 22,
+                  height: 22,
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            right: -12,
+            child: SizedBox(
+              width: _sunSize,
+              height: _sunSize,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SvgPicture.asset(
+                    AppDecorations.cloudSoft,
+                    width: _sunSize,
+                    height: _sunSize,
+                  ),
+                  SvgPicture.asset(
+                    AppDecorations.sunSmiling,
+                    width: _sunSize * 0.72,
+                    height: _sunSize * 0.72,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -121,19 +141,19 @@ class _RulesCard extends StatelessWidget {
       AppDecorations.leavesSprout,
       Color(0xFFE3F0DE),
       '名前や個人情報は書かない',
-      '安心して気持ちを話せるように、個人が特定される情報は書かないでください。',
+      '安心して気持ちを話せるように、\n個人が特定される情報は書かないでください。',
     ),
     (
       AppDecorations.heartWarm,
       Color(0xFFFBE3DD),
       '気持ちを否定しない',
-      'どんな気持ちも、否定せずに受けとめ合いましょう。',
+      'どんな気持ちも、否定せずに\n受けとめ合いましょう。',
     ),
     (
       AppDecorations.sunSmiling,
       Color(0xFFFCEFC7),
       '自分のペースで大丈夫',
-      '見るだけでも、書くのは後でも。あなたのペースで使えます。',
+      '見るだけでも、書くのは後でも。\nあなたのペースで使えます。',
     ),
   ];
 
@@ -143,7 +163,7 @@ class _RulesCard extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
         children: [
@@ -154,9 +174,9 @@ class _RulesCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    radius: 22,
+                    radius: 24,
                     backgroundColor: badgeColor,
-                    child: SvgPicture.asset(icon, width: 24, height: 24),
+                    child: SvgPicture.asset(icon, width: 26, height: 26),
                   ),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
@@ -165,18 +185,17 @@ class _RulesCard extends StatelessWidget {
                       children: [
                         Text(
                           title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textPrimary,
+                              ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           description,
-                          style: TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 13,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: AppColors.textSecondary),
                         ),
                       ],
                     ),
@@ -186,6 +205,104 @@ class _RulesCard extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+/// ボタン群と、四隅ににじみ出す葉っぱの装飾(スクロール内容に追従させるためbuttons群に紐づける)。
+class _Footer extends StatelessWidget {
+  const _Footer({required this.onLogin, required this.onSkip});
+
+  final VoidCallback onLogin;
+  final VoidCallback onSkip;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Positioned(
+          left: -28,
+          bottom: -16,
+          child: Opacity(
+            opacity: 0.9,
+            child: SvgPicture.asset(
+              AppDecorations.leavesSprout,
+              width: 76,
+              height: 76,
+            ),
+          ),
+        ),
+        Positioned(
+          right: -20,
+          bottom: -20,
+          child: Opacity(
+            opacity: 0.9,
+            child: SvgPicture.asset(
+              AppDecorations.leavesSprout,
+              width: 84,
+              height: 84,
+            ),
+          ),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                minimumSize: const Size.fromHeight(56),
+                textStyle: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+              onPressed: onLogin,
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('登録してはじめる'),
+                  SizedBox(width: 4),
+                  Icon(Icons.chevron_right, size: 20),
+                ],
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.secondary,
+                foregroundColor: AppColors.textPrimary,
+                minimumSize: const Size.fromHeight(56),
+                textStyle: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+              onPressed: onSkip,
+              child: const Text('登録せずに読む'),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            Center(
+              child: TextButton(
+                onPressed: onLogin,
+                child: Text(
+                  'ログイン',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

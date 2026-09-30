@@ -44,6 +44,9 @@ dependencies:
   # アイコン・イラスト表示(assets/配下のSVG)
   flutter_svg: ^2.0.10+1
 
+  # 丸みのある見出しフォント(デザイン確定に伴い採用)
+  google_fonts: ^6.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
