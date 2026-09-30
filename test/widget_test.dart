@@ -7,7 +7,8 @@ void main() {
   testWidgets('アプリ起動時にはじめての案内(S-01)が表示される', (WidgetTester tester) async {
     await tester.pumpWidget(const ProviderScope(child: App()));
 
+    expect(find.text('登録してはじめる'), findsOneWidget);
     expect(find.text('登録せずに読む'), findsOneWidget);
-    expect(find.text('登録・ログイン'), findsOneWidget);
+    expect(find.text('ログイン'), findsOneWidget);
   });
 }

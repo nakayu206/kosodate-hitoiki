@@ -9,7 +9,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ひと息(仮)',
+      title: 'ひと息',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       home: const OnboardingPage(),

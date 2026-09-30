@@ -15,10 +15,20 @@ void main() {
     expect(find.byType(NavigationBar), findsOneWidget);
   });
 
-  testWidgets('「登録・ログイン」を押すと登録・ログイン画面に遷移する', (tester) async {
+  testWidgets('「登録してはじめる」を押すと登録・ログイン画面に遷移する', (tester) async {
     await tester.pumpWidget(wrap(const OnboardingPage()));
 
-    await tester.tap(find.text('登録・ログイン'));
+    await tester.tap(find.text('登録してはじめる'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('メール/Google/Appleログイン(未実装)'), findsOneWidget);
+  });
+
+  testWidgets('「ログイン」を押すと登録・ログイン画面に遷移する', (tester) async {
+    await tester.pumpWidget(wrap(const OnboardingPage()));
+
+    await tester.ensureVisible(find.text('ログイン'));
+    await tester.tap(find.text('ログイン'));
     await tester.pumpAndSettle();
 
     expect(find.text('メール/Google/Appleログイン(未実装)'), findsOneWidget);
