@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'core/constants/app_theme.dart';
-import 'presentation/widgets/main_navigation_shell.dart';
+import 'presentation/pages/onboarding/onboarding_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -9,10 +9,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ひと息(仮)',
+      title: 'ひと息',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
-      home: const MainNavigationShell(),
+      home: const OnboardingPage(),
     );
   }
 }
